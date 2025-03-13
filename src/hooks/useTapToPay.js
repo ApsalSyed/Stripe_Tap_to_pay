@@ -14,7 +14,9 @@ export default function useTapToPay(onPaymentSuccess, onPaymentFailure) {
     try {
       await initialize({
         fetchConnectionToken: async () => {
-          const response = await fetch('YOUR_BACKEND_URL/connection_token');
+          const response = await fetch(
+            'http://192.168.1.43:3000/connection_token',
+          );
           const {secret} = await response.json();
           return secret;
         },
@@ -46,11 +48,14 @@ export default function useTapToPay(onPaymentSuccess, onPaymentFailure) {
 
     setLoading(true);
     try {
-      const response = await fetch('YOUR_BACKEND_URL/create_payment_intent', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({amount, currency: 'usd'}),
-      });
+      const response = await fetch(
+        'http://192.168.1.43:3000/create_payment_intent',
+        {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({amount, currency: 'usd'}),
+        },
+      );
 
       const {client_secret} = await response.json();
 
